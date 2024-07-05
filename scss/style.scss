@@ -1,0 +1,527 @@
+@charset "utf-8";
+@use "sass:math";
+
+// variables
+$main-color: #2498b3;
+$blue-color: #f3fafb;
+$light-color: #D4F1F8;
+$white-color: #fff;
+$gray-color: #f7f7f7;
+$black-color: #000;
+$btnWidth: 23px;
+$btnHeight: 2px;
+
+// mixin
+@mixin breakpoint($point) {
+  @if $point==tablet {
+    @media (min-width: 770px) {
+      @content ;
+    }
+  }
+  @if $point==pc1 {
+    @media (min-width: 1080px) {
+      @content ;
+    }
+  }
+  @if $point==pc2 {
+    @media (min-width: 1200px) {
+      @content ;
+    }
+  }
+  @if $point==pc3 {
+    @media (min-width: 1260px) {
+      @content ;
+    }
+  }
+  @if $point==pc4 {
+    @media (min-width: 1280px) {
+      @content ;
+    }
+  }
+}
+
+// base
+html {
+  font-size: 62.5%;
+}
+
+body {
+  width: 100%;
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-size: 1.6rem;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.7;
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  vertical-align: center;
+}
+
+ul {
+  list-style: none;
+}
+
+// header
+header {
+  position: relative;
+  background: $white-color;
+  @include breakpoint(pc2) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.header {
+  width: 100%;
+  height: 5rem;
+  padding-left: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $white-color;
+
+  @include breakpoint(pc2) {
+    padding-left: 21px;
+    height: 7rem;
+  }
+
+  h1 {
+    padding: 10px 0;
+    font-size: 1rem;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+    span {
+      margin-left: 16px;
+      display: none;
+      font-size: 1.4rem;
+      font-weight: 900;
+      line-height: 1.3;
+
+      @include breakpoint(pc4) {
+        display: inline-block;
+      }
+
+      strong {
+        font-size: 1.8rem;
+      }
+
+    }
+  }
+
+  &_logo {
+    height: 30px;
+
+    @include breakpoint(pc2) {
+      height: 33px;
+    }
+  }
+}
+
+.p-hamburger {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  transition: all .2s;
+
+  @include breakpoint(pc2) {
+    display: none;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    width: $btnWidth;
+    height: $btnHeight;
+    background: $main-color;
+    position: absolute;
+    left: calc(50% - math.div(#{$btnWidth}, 2));
+    transition: all .2s;
+  }
+
+  &::before {
+    top: 16px;
+  }
+
+  &::after {
+    top: 34px;
+  }
+
+  &_bar {
+    display: block;
+    width: $btnWidth;
+    height: $btnHeight;
+    position: absolute;
+    top: 50%;
+    left: calc(50% - math.div(#{$btnWidth}, 2));
+    font-size: 0;
+    background: $main-color;
+    // transition: background .2s;
+  }
+
+  &.is-open {
+    background: $main-color;
+
+    &::before,
+    &::after {
+      background: $white-color;
+    }
+
+    &::before {
+      transform: rotate(-45deg);
+      top: 25px;
+    }
+
+    &::after {
+      transform: rotate(-135deg);
+      top: 25px;
+    }
+
+    .p-hamburger_bar {
+      background: none;
+    }
+  }
+}
+
+.header-nav {
+  display: none;
+  position: fixed;
+  top: 50px;
+  right: 0;
+  left: 0;
+  z-index: 5;
+
+  @include breakpoint(pc2) {
+    display: block;
+    position: static;
+  }
+
+  &_menu {
+    display: flex;
+    flex-direction: column;
+    background: $white-color;
+    font-weight: 700;
+
+    @include breakpoint(pc2) {
+      flex-direction: row;
+    }
+
+    &_list {
+      a:hover {
+        background: $blue-color;
+
+        @include breakpoint(pc2) {
+          background: $light-color;
+        }
+      }
+      .sub-menu {
+        // position: static;
+        display: none;
+
+        @include breakpoint(pc2) {
+          position: absolute;
+          top: 70px;
+          left: 0;
+          background: $blue-color;
+        }
+        a {
+          padding: 10px 10px 10px 25px;
+          display: block;
+          font-weight: 400;
+
+          @include breakpoint(pc2) {
+            padding: 15px 60px 15px 15px;
+            text-wrap: nowrap;
+
+            &:hover {
+              background: $white-color;
+              color: $main-color;
+            }
+          }
+        }
+      }
+    }
+
+    > li {
+      position: relative;
+
+      > a {
+        padding: 10px;
+        display: block;
+
+        @include breakpoint(pc2) {
+          padding: 0 10px;
+          line-height: 7rem;
+        }
+
+        @include breakpoint(pc3) {
+          padding: 0 15px;
+        }
+
+        &.sub-btn {
+          position: relative;
+          &::before,
+          &::after {
+            content: "";
+            position: absolute;
+            display: block;
+            background: $black-color;
+
+            @include breakpoint(pc2) {
+              display: none;
+            }
+          }
+          &::before {
+            width: 24px;
+            height: 2px;
+            top: math.div(47.195px, 2) - 1px;
+            right: 13px;
+            z-index: 7;
+          }
+          &::after {
+            width: 2px;
+            height: 24px;
+            top: math.div(47.195px, 2) - 12px;
+            right: 24px;
+          }
+
+          &.is-active {
+            &::after {
+              width: 50px;
+              height: auto;
+              top: 0;
+              bottom: 0;
+              right: 0;
+              background: $gray-color;
+            }
+          }
+        }
+      }
+
+      &.app-btn {
+        display: none;
+        background: $main-color;
+        color: $white-color;
+
+        @include breakpoint(pc2) {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+// hero
+.hero {
+  margin-top: 25px;
+  height: 345px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+
+  @include breakpoint(tablet) {
+    margin-top: -15px;
+    height: 715px;
+    background-size: cover;
+  }
+
+  @include breakpoint(pc2) {
+    margin-top: 5px;
+  }
+
+  &_concept {
+    padding: 16px 0 18px;
+    width: 100%;
+    background: $white-color;
+    position: absolute;
+    bottom: 0;
+    z-index: 5;
+    text-align: center;
+
+    @include breakpoint(tablet) {
+      margin: 0 auto;
+      padding: 43px 0 28px;
+      width: 41rem;
+      border-radius: 10px;
+      top: 150px;
+      bottom: unset;
+      left: calc(50% - math.div(41rem, 2));
+    }
+
+    h2 {
+      font-size: 1rem;
+    }
+
+    &_logo {
+      display: none;
+
+      @include breakpoint(tablet) {
+        width: 280px;
+        display: inline-block;
+      }
+    }
+
+    p {
+      margin: 0 auto;
+      font-size: 1.3rem;
+      font-weight: 700;
+
+      @include breakpoint(tablet) {
+        font-size: 1.6rem;
+        margin-top: 16px;
+      }
+    }
+
+    a {
+      margin-top: 14px;
+      padding: 12px 18px;
+      border: solid 1px #c3c3c3;
+      border-radius: 4px;
+      display: inline-block;
+      background: $main-color;
+      color: $white-color;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1;
+      transition: padding .3s;
+
+      @include breakpoint(tablet) {
+        margin-top: 28px;
+        padding: 24px 37px;
+        font-size: 1.8rem;
+      }
+    }
+  }
+  &_bg {
+    margin-top: 25px;
+    width: 100%;
+    height: 345px;
+    background-size: auto 320px;
+    background-position: top;
+    position: fixed;
+    top: 0;
+    left: 0;
+    @include breakpoint(tablet) {
+      margin-top: -15px;
+      height: 715px;
+      background-size: auto 800px;
+    }
+    @include breakpoint(pc2) {
+      margin-top: 5px;
+    }
+  }
+  &_mv {
+    width: 100%;
+    height: 345px;
+    background-size: auto 320px;
+    background-position: top;
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include breakpoint(tablet) {
+      height: 715px;
+      background-size: auto 800px;
+    }
+  }
+}
+
+.webp .hero {
+  background-image: url(../imges/bg-hero3.webp);
+
+  &_bg {
+    background-image: url(../imges/bg-hero2.webp);
+  }
+  &_mv {
+    background-image: url(../imges/bg-hero1.webp);
+  }
+}
+
+.no-webp .hero {
+  background-image: url(../imges/bg-hero3.jpg);
+
+  &_bg {
+    background-image: url(../imges/bg-hero2.jpg);
+  }
+
+  &_mv {
+    background-image: url(../imges/bg-hero1.jpg);
+  }
+}
+
+// features
+.features {
+  padding: 64px 17px 79px;
+  background: $black-color;
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  color: $white-color;
+
+  @include breakpoint(tablet) {
+    padding: 64px 10px 56px;
+  }
+
+  ul {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    @include breakpoint(tablet) {
+      margin-top: -263px;
+      flex-direction: row;
+      justify-content: center;
+      gap: 0;
+    }
+  }
+}
+
+.feature {
+  @include breakpoint(tablet) {
+    margin: 0 2%;
+    width: calc(88% / 3);
+  }
+
+  @include breakpoint(pc1) {
+    margin: 0 50px;
+    width: 229px;
+  }
+
+  i {
+    width: 230px;
+    height: 230px;
+    border: solid 6px $black-color;
+    border-radius: 50%;
+    background: $white-color;
+    line-height: 230px;
+    font-size: 100px;
+    color: $black-color;
+  }
+
+  h3 {
+    margin: 8px 0;
+    font-size: 2.4rem;
+  }
+
+  p {
+    display: inline-block;
+    text-align: left;
+    font-weight: 700;
+  }
+}
